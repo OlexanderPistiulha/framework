@@ -1,0 +1,102 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapp {
+    width: 500px;
+    height: 300px;
+    // background-color: black;
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+
+
+    &__wrapp {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    &__counter {}
+
+    &__arrow {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+    &__prev {}
+
+    &__arrow-prev {
+        transform: rotate(-180deg);
+    }
+
+    &__next {}
+
+    &__arrow-next {}
+
+    &__window {
+        width: 80%;
+        overflow: hidden;
+    }
+
+    &__inner-window {
+        display: flex;
+        transition: .5s;
+    }
+
+    &__slide {}
+
+    // these properties are only needed to center-align content 
+    &__content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // text-align: center;
+        height: 100%;
+        text-align: center;
+    }
+
+    &__dots-wrapp {}
+
+    &__dots {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        margin-top: 50px;
+    }
+
+    &__dot {
+        box-sizing: content-box;
+        flex: 0 1 auto;
+        width: 30px;
+        height: 6px;
+        margin-right: 3px;
+        margin-left: 3px;
+        cursor: pointer;
+        background-color: blue;
+        opacity: .5;
+        transition: .5s ease;
+    }
+
+    &__dot-active {
+        opacity: 1;
+    }
+
+    &__dot-ordinary {
+        opacity: .5;
+    }
+}
