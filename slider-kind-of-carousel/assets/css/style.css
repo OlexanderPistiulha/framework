@@ -72,6 +72,10 @@ body {
   transition: .5s;
 }
 
+.slider__slide {
+  width: 200px;
+}
+
 .slider__content {
   display: -webkit-box;
   display: -webkit-flex;

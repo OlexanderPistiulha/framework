@@ -12,6 +12,33 @@ window.addEventListener('DOMContentLoaded', function () {
 		slideIndex = 1,
 		offset = 0;
 
+
+	let initialPoint;
+	let finalPoint;
+
+
+	innerWindow.addEventListener('touchstart', function (event) {	
+		initialPoint = event.changedTouches[0];
+	}, false);
+
+	innerWindow.addEventListener('touchend', function (event) {	
+		finalPoint = event.changedTouches[0];
+		var xAbs = Math.abs(initialPoint.pageX - finalPoint.pageX);
+		var yAbs = Math.abs(initialPoint.pageY - finalPoint.pageY);
+		if (xAbs > 20 || yAbs > 20) {
+			if (xAbs > yAbs) {
+				if (finalPoint.pageX < initialPoint.pageX) {
+					toNext();
+				} else {
+					toPrev();
+				}
+			}
+		}
+	}, false);
+
+
+
+
 	// it is neets more learn, how fitt two or more slides in window
 	innerWindow.style.width = 100 * (slides.length) + '%';
 
@@ -43,25 +70,27 @@ window.addEventListener('DOMContentLoaded', function () {
 	}
 
 	prev.addEventListener('click', () => {
-		if (offset == 0) {
-			offset = deleteNotDigits(sliderWindowWidth) * (slides.length - 1);
-		} else {
-			offset -= deleteNotDigits(sliderWindowWidth);
-		}
-
-		innerWindow.style.transform = `translateX(-${offset}px)`;
-
-		if (slideIndex == 1) {
-			slideIndex = slides.length;
-		} else {
-			slideIndex--;
-		}
-
-		dots.forEach(dot => dot.style.opacity = ".5");
-		dots[slideIndex - 1].style.opacity = 1;
+		toPrev();
 	});
 
 	next.addEventListener('click', () => {
+		toNext();
+	});
+
+	dots.forEach(dot => {
+		dot.addEventListener('click', (e) => {
+			const slideTo = e.target.getAttribute('data-slide-to');
+
+			slideIndex = slideTo;
+			offset = deleteNotDigits(sliderWindowWidth) * (slideTo - 1);
+
+			innerWindow.style.transform = `translateX(-${offset}px)`;
+
+			styleDots();
+		});
+	});
+
+	function toNext() {
 		if (offset == (deleteNotDigits(sliderWindowWidth) * (slides.length - 1))) {
 			offset = 0;
 		} else {
@@ -76,21 +105,31 @@ window.addEventListener('DOMContentLoaded', function () {
 			slideIndex++;
 		}
 
+		styleDots();
+	}
+
+	function toPrev() {
+		if (offset == 0) {
+			offset = deleteNotDigits(sliderWindowWidth) * (slides.length - 1);
+		} else {
+			offset -= deleteNotDigits(sliderWindowWidth);
+		}
+
+		innerWindow.style.transform = `translateX(-${offset}px)`;
+
+		if (slideIndex == 1) {
+			slideIndex = slides.length;
+		} else {
+			slideIndex--;
+		}
+
+		styleDots();
+	}
+
+	function styleDots() {
 		dots.forEach(dot => dot.style.opacity = ".5");
 		dots[slideIndex - 1].style.opacity = 1;
-	});
+	}
 
-	dots.forEach(dot => {
-		dot.addEventListener('click', (e) => {
-			const slideTo = e.target.getAttribute('data-slide-to');
 
-			slideIndex = slideTo;
-			offset = deleteNotDigits(sliderWindowWidth) * (slideTo - 1);
-
-			innerWindow.style.transform = `translateX(-${offset}px)`;
-
-			dots.forEach(dot => dot.style.opacity = ".5");
-			dots[slideIndex - 1].style.opacity = 1;
-		});
-	});
 });

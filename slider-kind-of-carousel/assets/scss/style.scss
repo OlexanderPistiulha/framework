@@ -58,7 +58,9 @@ body {
         transition: .5s;
     }
 
-    &__slide {}
+    &__slide {
+        width: 200px;
+    }
 
     // these properties are only needed to center-align content 
     &__content {
